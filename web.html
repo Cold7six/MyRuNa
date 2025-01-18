@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Live Navigation with Mapbox</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.9.2/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.9.2/mapbox-gl.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.css" type="text/css">
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.1-dev/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.1-dev/mapbox-gl-geocoder.css" type="text/css">
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+.mapboxgl-ctrl-geocoder {
+    min-width: 100%;
+    width: 200px;
+    max-width: 200px;
+    font-size: 18px;
+}
+.mapboxgl-ctrl-geocoder--input {
+    height: 50px;
+    padding: 6px 35px;
+}
+.mapboxgl-ctrl-geocoder--icon {
+    top: 12px;
+    left:180px;
+}
+.mapboxgl-ctrl-geocoder--button {
+    width: 35px;
+    height: 35px;
+    top: 7px;
+    right: 7px;
+}
+</style>
+</head>
+<body>
+<div id="map"></div>
+
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYWphaDA1IiwiYSI6ImNtNjBreWNtNzAzMTMycW9xZ3dqdzRwZTMifQ.67PnagsPJTCK4tjn_FphaQ';
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v12',
+        zoom: 15
+    });
+
+    // Add the Mapbox Directions control
+    const directions = new MapboxDirections({
+        accessToken: mapboxgl.accessToken
+    });
+    map.addControl(directions, 'top-left');
+
+    // Add the Mapbox GL Geocoder control for search functionality
+    const geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+        marker: false,
+        placeholder: 'Search for places'
+    });
+    map.addControl(geocoder, 'top-right');
+
+    // Add the GeolocateControl for live location tracking
+    const geolocate = new mapboxgl.GeolocateControl({
+        positionOptions: {
+            enableHighAccuracy: true
+        },
+        trackUserLocation: true,
+        showUserHeading: true
+    });
+    map.addControl(geolocate);
+
+    // Center map on user's location and start tracking when the map loads
+    map.on('load', function() {
+        geolocate.trigger();
+    });
+
+    geolocate.on('geolocate', function(e) {
+        const lon = e.coords.longitude;
+        const lat = e.coords.latitude;
+        const position = [lon, lat];
+        
+        // Update the map center to the user's new position
+        map.flyTo({
+            center: position,
+            zoom: 15
+        });
+    });
+</script>
+
+</body>
+</html>
