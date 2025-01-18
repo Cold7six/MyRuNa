@@ -15,23 +15,36 @@ body { margin: 0; padding: 0; }
 #map { position: absolute; top: 0; bottom: 0; width: 100%; }
 .mapboxgl-ctrl-geocoder {
     min-width: 100%;
-    width: 200px;
-    max-width: 200px;
-    font-size: 18px;
+    width: 100%;
+    max-width: none;
+    font-size: 16px;
 }
 .mapboxgl-ctrl-geocoder--input {
-    height: 50px;
+    height: 40px;
     padding: 6px 35px;
 }
 .mapboxgl-ctrl-geocoder--icon {
-    top: 12px;
-    left:180px;
+    top: 10px;
+    left: 10px;
 }
 .mapboxgl-ctrl-geocoder--button {
-    width: 35px;
-    height: 35px;
-    top: 7px;
-    right: 7px;
+    width: 30px;
+    height: 30px;
+    top: 5px;
+    right: 5px;
+}
+@media (max-width: 640px) {
+    .mapboxgl-ctrl-top-left,
+    .mapboxgl-ctrl-top-right {
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+    }
+    .mapboxgl-ctrl-geocoder {
+        width: 100%;
+        margin: 10px 0;
+    }
 }
 </style>
 </head>
