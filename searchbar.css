@@ -1,7 +1,7 @@
 .mapboxgl-ctrl-geocoder {
     min-width: 100%;
-    width: 800px;
-    max-width: 800px;
+    width: 200px;
+    max-width: 200px;
     font-size: 18px;
 }
 .mapboxgl-ctrl-geocoder--input {
@@ -10,6 +10,7 @@
 }
 .mapboxgl-ctrl-geocoder--icon {
     top: 12px;
+    left: 180px;
 }
 .mapboxgl-ctrl-geocoder--button {
     width: 35px;
